@@ -19,7 +19,7 @@
   --ink-muted: #A79B93;      /* captions, microcopy */
   
   /* Brand Colors */
-  --brand-evergreen: #3E5F52; /* primary CTA */
+  --brand-evergreen: #7c7aad; /* primary CTA */
   --brand-sage: #9DB8A0;      /* secondary accents */
   --brand-plum: #7A5C72;      /* editorial emphasis */
   --brand-gold: #C9A46A;      /* ritual accents (very limited) */
@@ -269,7 +269,8 @@ img {
 }
 
 .btn-secondary:hover {
-  background: var(--bg-soft);
+  /* background: var(--bg-soft); */
+  background: #c9bdd0;
   border-color: var(--ink-primary);
 }
 

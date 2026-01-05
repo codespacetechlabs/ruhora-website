@@ -180,7 +180,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0 flex justify-end pointer-events-none">
         <div
           ref={backgroundRef}
-          className="hero-background relative w-full lg:w-3/4 h-full"
+          className="hero-background relative w-full h-full"
           style={{
             pointerEvents: 'none',
           }}
@@ -197,12 +197,12 @@ export function Hero() {
             sizes="100vw"
           />
           {/* Gradient overlay for text readability */}
-          <div
+          {/* <div
             className="absolute inset-0"
             style={{
               background: 'linear-gradient(to right, rgba(251, 246, 239, 0.85) 0%, rgba(251, 246, 239, 0.6) 30%, rgba(251, 246, 239, 0.3) 50%, transparent 70%)',
             }}
-          />
+          /> */}
         </div>
 
         {/* Subtle shimmer overlay - will be animated */}
