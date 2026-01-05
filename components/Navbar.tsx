@@ -11,8 +11,8 @@ const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'philosophy', label: 'Philosophy' },
   { id: 'about', label: 'About' },
-  { id: 'ritual', label: 'Ritual' },
   { id: 'products', label: 'Products' },
+  { id: 'journal', label: 'Journal' },
 ];
 
 export function Navbar() {
@@ -61,7 +61,7 @@ export function Navbar() {
     } else {
       // Smooth GSAP scroll
       gsap.to(window, {
-        duration: 1.2,
+        duration: 0.5,
         scrollTo: {
           y: section,
           offsetY: 0,
@@ -87,7 +87,7 @@ export function Navbar() {
                 onClick={() => handleNavClick(item.id)}
                 className="flex items-center gap-3 group transition-opacity duration-300"
                 style={{
-                  fontFamily: 'var(--font-secondary)',
+                  fontFamily: 'var(--font-sans)',
                   opacity: isActive ? 1 : 0.4,
                 }}
                 aria-current={isActive ? 'page' : undefined}
@@ -96,7 +96,7 @@ export function Navbar() {
                 <span
                   className="text-sm tracking-wide transition-colors duration-300"
                   style={{
-                    color: isActive ? 'var(--color-night)' : 'var(--color-ritual)',
+                    color: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
                   }}
                 >
                   {item.label}
@@ -108,7 +108,7 @@ export function Navbar() {
                   style={{
                     width: isActive ? '20px' : '8px',
                     height: '1px',
-                    backgroundColor: isActive ? 'var(--color-night)' : 'var(--color-ritual)',
+                    backgroundColor: isActive ? 'var(--ink-primary)' : 'var(--ink-secondary)',
                     opacity: isActive ? 1 : 0.3,
                   }}
                 />

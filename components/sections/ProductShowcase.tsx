@@ -103,13 +103,15 @@ export function ProductShowcase() {
       ref={sectionRef}
       id="products" 
       data-section="products"
-      className="py-16 md:py-24 lg:py-32"
+      className="section-wrapper"
       style={{
         maxWidth: '1140px',
         marginLeft: 'auto',
         marginRight: 'auto',
         paddingLeft: 'clamp(1.5rem, 5vw, 150px)',
         paddingRight: 'clamp(1.5rem, 5vw, 150px)',
+        paddingTop: 'clamp(3rem, 8vw, 6rem)',
+        paddingBottom: 'clamp(3rem, 8vw, 6rem)',
       }}
     >
       {/* PRODUCT 01 — HYDRASHINE SKIN OIL GEL */}
@@ -119,9 +121,10 @@ export function ProductShowcase() {
           ref={product01ImageRef}
           className="relative w-full"
         >
-          <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-stone-100">
+          <div className="relative aspect-square w-full overflow-hidden bg-stone-100" style={{ borderRadius: 'var(--radius-lg)' }}>
             <Image
-              src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+              // src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+              src="/products/product-1/product_1.jpg"
               alt="HydraShine Skin Oil Gel"
               fill
               className="object-cover"
@@ -134,15 +137,15 @@ export function ProductShowcase() {
         {/* Editorial Copy */}
         <div ref={product01CopyRef} className="space-y-6">
           <p 
-            className="text-xs tracking-[0.2em] uppercase opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="caption"
+            style={{ fontFamily: 'var(--font-sans)' }}
           >
             BODY RITUAL
           </p>
 
           <h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight"
-            style={{ fontFamily: 'var(--font-primary)' }}
+            className="heading-l"
+            style={{ fontFamily: 'var(--font-serif)' }}
           >
             HydraShine
             <br />
@@ -150,9 +153,9 @@ export function ProductShowcase() {
           </h2>
 
           <p 
-            className="text-base md:text-lg leading-relaxed opacity-80"
+            className="body-l"
             style={{ 
-              fontFamily: 'var(--font-secondary)',
+              fontFamily: 'var(--font-sans)',
               maxWidth: '42ch',
             }}
           >
@@ -160,16 +163,16 @@ export function ProductShowcase() {
           </p>
 
           <p 
-            className="text-sm opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="body-m"
+            style={{ fontFamily: 'var(--font-sans)', color: 'var(--ink-muted)' }}
           >
             Hydration · Comfort · Glow
           </p>
 
           <a 
             href="#"
-            className="inline-block mt-4 text-sm transition-opacity hover:opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="btn-secondary inline-flex mt-4"
+            style={{ fontFamily: 'var(--font-sans)' }}
           >
             Explore This Ritual →
           </a>
@@ -181,15 +184,15 @@ export function ProductShowcase() {
         {/* Editorial Copy (appears first on desktop, reversed order) */}
         <div ref={product02CopyRef} className="space-y-6 order-2 lg:order-1">
           <p 
-            className="text-xs tracking-[0.2em] uppercase opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="caption"
+            style={{ fontFamily: 'var(--font-sans)' }}
           >
             FACE RITUAL
           </p>
 
           <h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight"
-            style={{ fontFamily: 'var(--font-primary)' }}
+            className="heading-l"
+            style={{ fontFamily: 'var(--font-serif)' }}
           >
             Ancient Elixir
             <br />
@@ -197,9 +200,9 @@ export function ProductShowcase() {
           </h2>
 
           <p 
-            className="text-base md:text-lg leading-relaxed opacity-80"
+            className="body-l"
             style={{ 
-              fontFamily: 'var(--font-secondary)',
+              fontFamily: 'var(--font-sans)',
               maxWidth: '42ch',
             }}
           >
@@ -207,16 +210,16 @@ export function ProductShowcase() {
           </p>
 
           <p 
-            className="text-sm opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="body-m"
+            style={{ fontFamily: 'var(--font-sans)', color: 'var(--ink-muted)' }}
           >
             Radiance · Balance · Renewal
           </p>
 
           <a 
             href="#"
-            className="inline-block mt-4 text-sm transition-opacity hover:opacity-60"
-            style={{ fontFamily: 'var(--font-secondary)' }}
+            className="btn-secondary inline-flex mt-4"
+            style={{ fontFamily: 'var(--font-sans)' }}
           >
             Enter the Night Ritual →
           </a>
@@ -227,9 +230,10 @@ export function ProductShowcase() {
           ref={product02ImageRef}
           className="relative w-full order-1 lg:order-2"
         >
-          <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-stone-100">
+          <div className="relative aspect-square w-full overflow-hidden bg-stone-100" style={{ borderRadius: 'var(--radius-lg)' }}>
             <Image
-              src="https://images.unsplash.com/photo-1598449426314-8b02525e8733"
+              // src="https://images.unsplash.com/photo-1598449426314-8b02525e8733"
+              src="/products/product-2/product_2.png"
               alt="Ancient Elixir Kumkumadi Thailam"
               fill
               className="object-cover"

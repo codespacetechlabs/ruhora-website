@@ -1,20 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand Colors - Warm, earthy tones */
-  --color-sand: #f5f1eb;
-  --color-stone: #e8e3da;
-  --color-earth: #9b8b7e;
-  --color-night: #1a1614;
-  --color-ritual: #4a3f38;
+  /* ==========================================
+     RuhOra Design System — "From Skin to Soul"
+     Calm, luxury, ritual-driven
+  ========================================== */
+
+  /* ===== COLOR TOKENS ===== */
   
-  /* Spacing scale for breath */
+  /* Backgrounds */
+  --bg-canvas: #FBF6EF;      /* primary page background (never pure white) */
+  --bg-soft: #F3E2D3;        /* section backgrounds */
+  --bg-card: #FFF9F3;        /* cards / containers */
+  
+  /* Ink (Text) */
+  --ink-primary: #3A2F2A;    /* headings */
+  --ink-secondary: #7A6B63;  /* body text */
+  --ink-muted: #A79B93;      /* captions, microcopy */
+  
+  /* Brand Colors */
+  --brand-evergreen: #3E5F52; /* primary CTA */
+  --brand-sage: #9DB8A0;      /* secondary accents */
+  --brand-plum: #7A5C72;      /* editorial emphasis */
+  --brand-gold: #C9A46A;      /* ritual accents (very limited) */
+
+  /* Legacy color aliases for backwards compatibility during migration */
+  --color-sand: var(--bg-canvas);
+  --color-stone: var(--bg-soft);
+  --color-earth: var(--ink-secondary);
+  --color-night: var(--ink-primary);
+  --color-ritual: #4a3f38;
+
+  /* ===== SPACING SYSTEM ===== */
+  /* Breathable, calm spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 140px;
+
+  /* Legacy spacing aliases */
   --space-breath: clamp(2rem, 5vw, 4rem);
   --space-ritual: clamp(4rem, 10vw, 8rem);
+
+  /* ===== RADIUS SYSTEM ===== */
+  /* No sharp edges anywhere */
+  --radius-xs: 8px;     /* buttons */
+  --radius-sm: 12px;    /* inputs */
+  --radius-md: 20px;    /* cards */
+  --radius-lg: 28px;    /* product containers */
+  --radius-xl: 40px;    /* hero shapes */
+  --radius-pill: 999px;
+
+  /* ===== SHADOW SYSTEM ===== */
+  /* Subtle, photographic shadows */
+  --shadow-soft: 0px 12px 30px rgba(0, 0, 0, 0.06);
+  --shadow-product: 0px 20px 45px rgba(58, 47, 42, 0.12);
+
+  /* ===== TYPOGRAPHY TOKENS ===== */
   
-  /* Typography */
-  --font-primary: "Heiti SC", "PingFang SC", "Hiragino Sans", "Noto Sans CJK SC", serif;
-  --font-secondary: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Font Families */
+  --font-serif: "Cormorant", "Heiti SC", "PingFang SC", "Hiragino Sans", "Noto Sans CJK SC", serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Legacy aliases */
+  --font-primary: var(--font-serif);
+  --font-secondary: var(--font-sans);
+
+  /* Font Sizes — using clamp for fluid typography */
+  --text-heading-xl: clamp(3rem, 5vw, 4.5rem);
+  --text-heading-l: clamp(2.2rem, 4vw, 3rem);
+  --text-heading-m: 1.75rem;
+  --text-body-l: 1.125rem;
+  --text-body-m: 1rem;
+  --text-caption: 0.875rem;
+
+  /* Line Heights */
+  --leading-tight: 1.2;   /* headings */
+  --leading-snug: 1.3;    /* headings */
+  --leading-normal: 1.6;  /* body text */
+  --leading-relaxed: 1.8; /* body text, calm reading */
 }
 
 @theme inline {
@@ -47,11 +115,11 @@ html {
 }
 
 body {
-  background: var(--color-sand);
-  color: var(--color-night);
+  background: var(--bg-canvas);
+  color: var(--ink-primary);
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--text-body-m);
+  line-height: var(--leading-normal);
   overflow-x: hidden;
 }
 
@@ -72,12 +140,322 @@ img {
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid var(--color-earth);
+  outline: 2px solid var(--brand-evergreen);
   outline-offset: 4px;
+  border-radius: var(--radius-xs);
 }
 
 /* Selection color */
 ::selection {
-  background: var(--color-stone);
-  color: var(--color-night);
+  background: var(--bg-soft);
+  color: var(--ink-primary);
+}
+
+/* ==========================================
+   TYPOGRAPHY SYSTEM
+   Reusable text classes for consistency
+========================================== */
+
+/* Heading Styles */
+.heading-xl {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading-xl);
+  line-height: var(--leading-tight);
+  color: var(--ink-primary);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.heading-l {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading-l);
+  line-height: var(--leading-snug);
+  color: var(--ink-primary);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.heading-m {
+  font-family: var(--font-serif);
+  font-size: var(--text-heading-m);
+  line-height: var(--leading-snug);
+  color: var(--ink-primary);
+  font-weight: 400;
+}
+
+/* Body Text Styles */
+.body-l {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-l);
+  line-height: var(--leading-relaxed);
+  color: var(--ink-secondary);
+  font-weight: 400;
+}
+
+.body-m {
+  font-family: var(--font-sans);
+  font-size: var(--text-body-m);
+  line-height: var(--leading-normal);
+  color: var(--ink-secondary);
+  font-weight: 400;
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--text-caption);
+  line-height: var(--leading-normal);
+  color: var(--ink-muted);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ==========================================
+   BUTTON SYSTEM
+   Calm, luxury button styles
+========================================== */
+
+/* Primary Button — Evergreen CTA */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: var(--brand-evergreen);
+  color: white;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-m);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 63, 56, 0.15);
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--brand-sage);
+  outline-offset: 2px;
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary Button — Ghost style */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--ink-primary);
+  border: 1px solid var(--ink-secondary);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-m);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-soft);
+  border-color: var(--ink-primary);
+}
+
+.btn-secondary:active {
+  background: var(--bg-canvas);
+}
+
+/* ==========================================
+   CONTAINER SYSTEM
+   Card and section containers
+========================================== */
+
+/* Card Container */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Product Container */
+.product-container {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-product);
+}
+
+/* Section Wrapper */
+.section-wrapper {
+  padding-top: var(--space-7);
+  padding-bottom: var(--space-7);
+}
+
+@media (min-width: 1024px) {
+  .section-wrapper {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+}
+
+/* ==========================================
+   JOURNAL SECTION
+   Editorial cards with calm interactions
+========================================== */
+
+/* Journal card initial state for animation */
+.journal-card {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* Read more button hover state */
+.read-more-btn:hover {
+  color: var(--brand-sage);
+}
+
+.read-more-btn:focus-visible {
+  outline: 2px solid var(--brand-evergreen);
+  outline-offset: 4px;
+  border-radius: var(--radius-xs);
+}
+
+/* Mobile responsive grid adjustment */
+@media (max-width: 768px) {
+  .journal-cards {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ==========================================
+   SECTION GRADIENT FADES
+   Soft transitions between sections
+========================================== */
+
+/* Base section with gradient fade */
+.section-gradient-fade {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Gradient overlay for canvas background */
+.section-gradient-fade.bg-canvas-fade {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--bg-canvas) 8%,
+    var(--bg-canvas) 92%,
+    transparent 100%
+  );
+}
+
+/* Gradient overlay for soft background */
+.section-gradient-fade.bg-soft-fade {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--bg-soft) 8%,
+    var(--bg-soft) 92%,
+    transparent 100%
+  );
+}
+/* ==========================================
+   MOBILE RESPONSIVE UTILITIES
+   Breakpoint-specific utilities
+========================================== */
+
+/* Mobile-specific overrides */
+@media (max-width: 640px) {
+  /* Reduce heading sizes on small screens */
+  .heading-xl {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+  
+  .heading-l {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  
+  /* Ensure proper touch targets (44px minimum) */
+  button,
+  a.btn-primary,
+  a.btn-secondary {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Reduce horizontal padding on buttons for mobile */
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.9375rem;
+  }
+  
+  /* Stack flex items on mobile */
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+}
+
+/* Tablet breakpoint adjustments */
+@media (min-width: 641px) and (max-width: 1023px) {
+  /* Comfortable spacing for tablets */
+  .section-wrapper {
+    padding-top: clamp(4rem, 8vw, 6rem);
+    padding-bottom: clamp(4rem, 8vw, 6rem);
+  }
+}
+
+/* Desktop refinements */
+@media (min-width: 1024px) {
+  /* Restore full luxury spacing */
+  .section-wrapper {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Disable hover effects on touch devices */
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  .section-wrapper {
+    padding-top: clamp(2rem, 5vh, 3rem);
+    padding-bottom: clamp(2rem, 5vh, 3rem);
+  }
+  
+  /* Adjust hero section height */
+  section.min-h-screen {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
 }

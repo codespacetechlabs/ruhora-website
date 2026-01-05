@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { registerGSAPPlugins } from '@/lib/gsap-config';
 import { initHeroAnimation } from '@/animations/hero';
+import { initBeginYourRitualAnimation } from '@/animations/begin-your-ritual';
+import { initJournalAnimation } from '@/animations/journal';
+import { initFooterAnimation } from '@/animations/footer';
 
 /**
  * AnimationProvider
@@ -28,10 +31,16 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
     // This prevents animations from firing on partially rendered content
     const initAnimations = () => {
       const cleanupHero = initHeroAnimation({ reducedMotion });
+      const cleanupRitual = initBeginYourRitualAnimation({ reducedMotion });
+      const cleanupJournal = initJournalAnimation({ reducedMotion });
+      const cleanupFooter = initFooterAnimation({ reducedMotion });
 
       // Return cleanup function that runs when component unmounts
       return () => {
         cleanupHero();
+        cleanupRitual();
+        cleanupJournal();
+        cleanupFooter();
       };
     };
 
@@ -48,3 +57,4 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
 
   return <>{children}</>;
 }
+

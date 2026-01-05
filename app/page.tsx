@@ -2,8 +2,10 @@ import { Hero } from '@/components/sections/Hero';
 import { BrandEssence } from '@/components/sections/BrandEssence';
 import { AboutBrand } from '@/components/sections/AboutBrand';
 import { ProductShowcase } from '@/components/sections/ProductShowcase';
+import { BeginYourRitual } from '@/components/sections/BeginYourRitual';
 import { Ritual } from '@/components/sections/Ritual';
 import { Journal } from '@/components/sections/Journal';
+import { Footer } from '@/components/sections/Footer';
 import { AnimationProvider } from '@/components/AnimationProvider';
 import { Navbar } from '@/components/Navbar';
 
@@ -21,30 +23,22 @@ export default function Home() {
         <div id="about">
           <AboutBrand />
         </div>
-        <div id="products">
+        {/* <div id="products">
           <ProductShowcase />
+        </div> */}
+        <div id="products">
+          <BeginYourRitual />
         </div>
-        <div id="ritual">
+        {/* <div id="ritual">
           <Ritual />
+        </div> */}
+        <div id="journal">
+          <Journal />
         </div>
-        <Journal />
-        
-        {/* Soft footer */}
-        <footer className="py-16 px-6 text-center border-t border-current/10">
-          <p 
-            className="text-xs tracking-widest uppercase opacity-60 mb-8"
-            style={{ fontFamily: 'var(--font-secondary)' }}
-          >
-            RUहORA
-          </p>
-          <p 
-            className="text-sm opacity-50"
-            style={{ fontFamily: 'var(--font-secondary)' }}
-          >
-            Skin to Soul — Where Skincare Meets Stillness
-          </p>
-        </footer>
       </main>
+        
+      {/* Footer - Outside main to have its own spacing */}
+      <Footer />
     </AnimationProvider>
   );
 }

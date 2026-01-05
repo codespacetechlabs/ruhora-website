@@ -14,6 +14,9 @@ export function Hero() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subheadlineRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
+  const ctaMobileRef = useRef<HTMLButtonElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const breathingTweenRef = useRef<gsap.core.Tween | null>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -22,19 +25,32 @@ export function Hero() {
       ).matches;
 
       /* ----------------------------------
-         1. INTRO FADE (HEADLINE + SUBHEAD)
+         1. INTRO FADE (HEADLINE → SUBHEAD → CTA)
       ---------------------------------- */
 
       if (!prefersReducedMotion) {
-        gsap.from([headlineRef.current, subheadlineRef.current], {
+        // Intro sequence: headline, subheadline, then CTA
+        const tl = gsap.timeline();
+        
+        tl.from(headlineRef.current, {
           opacity: 0,
           y: 8,
           duration: 1.2,
           ease: 'power2.out',
-          stagger: 0.12,
-        });
+        })
+        .from(subheadlineRef.current, {
+          opacity: 0,
+          y: 8,
+          duration: 1.2,
+          ease: 'power2.out',
+        }, '-=0.9')
+        .to([ctaRef.current, ctaMobileRef.current].filter(Boolean), {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+        }, '-=0.6');
       } else {
-        gsap.set([headlineRef.current, subheadlineRef.current], {
+        gsap.set([headlineRef.current, subheadlineRef.current, ctaRef.current, ctaMobileRef.current].filter(Boolean), {
           opacity: 1,
           y: 0,
         });
@@ -42,16 +58,17 @@ export function Hero() {
 
       /* ----------------------------------
          2. CTA BREATHING PULSE (OPACITY ONLY)
+         Stops on hover/focus for better UX
       ---------------------------------- */
 
       if (!prefersReducedMotion && ctaRef.current) {
-        gsap.to(ctaRef.current, {
-          opacity: 0.85,
+        breathingTweenRef.current = gsap.to(ctaRef.current, {
+          opacity: 0.92,
           duration: 2.8,
           ease: 'sine.inOut',
           repeat: -1,
           yoyo: true,
-          delay: 1.2,
+          delay: 1.8, // Start after CTA fully faded in
         });
       }
 
@@ -70,7 +87,21 @@ export function Hero() {
       }
 
       /* ----------------------------------
-         4. DESKTOP-ONLY BACKGROUND PARALLAX
+         4. SCROLL INDICATOR GENTLE DRIFT
+      ---------------------------------- */
+
+      if (!prefersReducedMotion && scrollIndicatorRef.current) {
+        gsap.to(scrollIndicatorRef.current, {
+          y: 8,
+          duration: 2,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+
+      /* ----------------------------------
+         5. DESKTOP-ONLY BACKGROUND PARALLAX
       ---------------------------------- */
 
       ScrollTrigger.matchMedia({
@@ -93,130 +124,190 @@ export function Hero() {
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      breathingTweenRef.current?.kill();
+      ctx.revert();
+    };
   }, []);
+
+  // Handle CTA click - smooth scroll to next section
+  const handleCtaClick = () => {
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    // Find next section (BrandEssence or ProductShowcase)
+    const nextSection = sectionRef.current?.nextElementSibling as HTMLElement;
+    if (nextSection) {
+      if (prefersReducedMotion) {
+        // Instant scroll for reduced motion
+        nextSection.scrollIntoView();
+      } else {
+        // Smooth scroll for normal motion
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Handle hover/focus to pause breathing animation
+  const handleCtaInteraction = (isInteracting: boolean) => {
+    if (breathingTweenRef.current) {
+      if (isInteracting) {
+        breathingTweenRef.current.pause();
+        gsap.to(ctaRef.current, { opacity: 1, duration: 0.3 });
+      } else {
+        gsap.to(ctaRef.current, { opacity: 0.92, duration: 0.3, onComplete: () => {
+          breathingTweenRef.current?.resume();
+        }});
+      }
+    }
+  };
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden">
       {/* Logo - Top Center */}
-      <div className="absolute top-12 left-1/2 -translate-x-1/2 z-30">
+      <div className="absolute top-6 md:top-12 left-1/2 -translate-x-1/2 z-30">
         <Image
           src="/logo.png"
           alt="RUहORA"
-          width={120}
-          height={120}
+          width={80}
+          height={80}
           priority
-          className="object-contain"
+          className="md:w-[120px] md:h-[120px] object-contain"
         />
       </div>
 
-      {/* Background - 75% width from right side */}
-      <div className="absolute inset-0 z-0 flex justify-end">
+      {/* Background - Responsive positioning */}
+      <div className="absolute inset-0 z-0 flex justify-end pointer-events-none">
         <div
           ref={backgroundRef}
-          className="hero-background relative"
+          className="hero-background relative w-full lg:w-3/4 h-full"
           style={{
-            width: '100%',
-            // width: '75%',
-            height: '100%',
+            pointerEvents: 'none',
           }}
         >
           <Image
-            // src="/a-restorative-hand-ritual-445004.jpg"
-            // src="/hero-background.png"
             src="/homepage_background.png"
-            // src="/9e341bf54481d49293ad312987168706.jpg"
             alt="Ritual hands with water reflection"
             fill
             priority
             className="object-cover"
-            style={{ objectPosition: 'center' }}
+            style={{ 
+              objectPosition: 'center right',
+            }}
+            sizes="100vw"
           />
           {/* Gradient overlay for text readability */}
-          {/* <div
+          <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(90deg, rgba(245, 241, 235, 0.95) 0%, rgba(245, 241, 235, 0.3) 40%, transparent 100%)',
+              background: 'linear-gradient(to right, rgba(251, 246, 239, 0.85) 0%, rgba(251, 246, 239, 0.6) 30%, rgba(251, 246, 239, 0.3) 50%, transparent 70%)',
             }}
-          /> */}
+          />
         </div>
 
         {/* Subtle shimmer overlay - will be animated */}
         <div
           ref={shimmerRef}
-          className="shimmer-overlay absolute inset-0 pointer-events-none opacity-0"
+          className="shimmer-overlay absolute inset-0 opacity-0"
           style={{
             background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%)',
+            pointerEvents: 'none',
           }}
         />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 w-full" style={{ margin: '0 auto', padding: '0 150px' }}>
+      <div className="relative z-10 w-full px-6 md:px-12 lg:px-24 xl:px-[150px]">
         <div className="min-h-screen items-center">
           {/* Text Content - Left Side (columns 1-6) */}
-          <div className="col-span-6" style={{ paddingTop: '30vh' }}>
+          <div className="col-span-6 pt-[25vh] md:pt-[30vh]">
             {/* Main headline - will fade in after load */}
             <h1
               ref={headlineRef}
-              className="hero-headline font-light tracking-tight mb-8"
+              className="hero-headline font-light tracking-tight mb-6 md:mb-8"
               style={{
-                fontFamily: 'var(--font-primary)',
-                fontSize: '150px',
-                lineHeight: '0.9',
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(3.5rem, 14vw, 9.375rem)',
+                lineHeight: 'var(--leading-tight)',
+                color: 'var(--ink-primary)',
+                letterSpacing: '-0.02em',
                 opacity: 0,
                 transform: 'translateY(12px)',
+                textShadow: '0 1px 2px rgba(251, 246, 239, 0.5)',
               }}
             >
-              {/* Skin<br />To Soul */}
               FROM SKIN<br />TO SOUL
-              {/* JOURNEY <br/>FROM SKIN<br />TO SOUL */}
             </h1>
 
             {/* Subheadline */}
             <p
               ref={subheadlineRef}
-              className="hero-subheadline tracking-wide mb-12"
+              className="hero-subheadline tracking-wide text-2xl md:text-2xl lg:text-3xl"
               style={{
-                fontFamily: 'var(--font-secondary)',
-                fontSize: '36px',
-                fontWeight: '200',
-                color: 'var(--color-ritual)',
+                fontFamily: 'var(--font-sans)',
+                fontWeight: '300',
+                color: 'var(--ink-secondary)',
+                lineHeight: 'var(--leading-snug)',
                 opacity: 0,
                 transform: 'translateY(12px)',
+                textShadow: '0 1px 2px rgba(251, 246, 239, 0.5)',
               }}
             >
               Where Skincare Meets Stillness
             </p>
 
-            {/* CTA - will have breathing pulse */}
-            <button
-              ref={ctaRef}
-              className="hero-cta px-8 py-4 border border-current transition-colors duration-300 hover:bg-stone-900 hover:text-sand-50"
-              style={{
-                fontFamily: 'var(--font-secondary)',
-                fontSize: '0.875rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: 'var(--color-ritual)',
-                opacity: 0,
-              }}
-              aria-label="Begin your ritual"
-            >
-              Begin Your Ritual
-            </button>
+            {/* CTA - Shows inline on desktop */}
+            <div className="hidden lg:block mt-8">
+              <button
+                ref={ctaRef}
+                className="btn-primary hero-cta"
+                onClick={handleCtaClick}
+                onMouseEnter={() => handleCtaInteraction(true)}
+                onMouseLeave={() => handleCtaInteraction(false)}
+                onFocus={() => handleCtaInteraction(true)}
+                onBlur={() => handleCtaInteraction(false)}
+                style={{
+                  opacity: 0,
+                  pointerEvents: 'auto',
+                }}
+                aria-label="Begin your ritual"
+              >
+                Begin Your Ritual
+              </button>
+            </div>
+
+            {/* CTA - Shows centered on mobile */}
+            <div className="lg:hidden mt-8 flex justify-center">
+              <button
+                ref={ctaMobileRef}
+                className="btn-primary hero-cta"
+                onClick={handleCtaClick}
+                style={{
+                  opacity: 0,
+                  pointerEvents: 'auto',
+                }}
+                aria-label="Begin your ritual"
+              >
+                Begin Your Ritual
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 z-20">
+      <div 
+        ref={scrollIndicatorRef}
+        className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 z-20"
+        style={{ pointerEvents: 'none' }}
+      >
         <span
-          className="text-xs tracking-widest uppercase"
-          style={{ fontFamily: 'var(--font-secondary)' }}
+          className="caption text-xs"
+          style={{ fontFamily: 'var(--font-sans)' }}
         >
           Scroll
         </span>
-        <div className="w-px h-12 bg-current opacity-30" />
+        <div className="w-px h-8 md:h-12 bg-current opacity-30" />
       </div>
     </section>
   );
